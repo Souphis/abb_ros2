@@ -36,14 +36,15 @@ def generate_launch_description():
     # Command-line arguments
     robot_xacro_file = LaunchConfiguration("robot_xacro_file")
     support_package = LaunchConfiguration("support_package")
+    moveit_config_package = LaunchConfiguration("moveit_config_package")
 
     declared_arguments = []
 
+    # TODO(andyz): add other options
     declared_arguments.append(
         DeclareLaunchArgument(
             "robot_xacro_file",
             description="Xacro describing the robot.",
-            # TODO(andyz): add other options
             choices=["irb1200_5_90.xacro"],
         )
     )
@@ -51,8 +52,14 @@ def generate_launch_description():
         DeclareLaunchArgument(
             "support_package",
             description="Name of the support package",
-            # TODO(andyz): add other options
             choices=["abb_irb1200_support"],
+        )
+    )
+    declared_arguments.append(
+        DeclareLaunchArgument(
+            "moveit_config_package",
+            description="Name of the support package",
+            choices=["abb_irb1200_5_90_moveit_config"],
         )
     )
 
