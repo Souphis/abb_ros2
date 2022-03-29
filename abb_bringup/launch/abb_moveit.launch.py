@@ -2,7 +2,12 @@ from ament_index_python.packages import get_package_share_directory
 from launch import LaunchDescription
 from launch.actions import DeclareLaunchArgument
 from launch.actions import OpaqueFunction
-from launch.substitutions import Command, FindExecutable, LaunchConfiguration, PathJoinSubstitution
+from launch.substitutions import (
+    Command,
+    FindExecutable,
+    LaunchConfiguration,
+    PathJoinSubstitution,
+)
 from launch_ros.actions import Node
 from launch_ros.substitutions import FindPackageShare
 import os
@@ -19,6 +24,7 @@ def load_yaml(package_name, file_path):
     except EnvironmentError:  # parent of IOError, OSError *and* WindowsError where available
         return None
 
+
 def launch_setup(context, *args, **kwargs):
     # Command-line arguments
     robot_xacro_file = LaunchConfiguration("robot_xacro_file")
@@ -31,7 +37,9 @@ def launch_setup(context, *args, **kwargs):
         [
             PathJoinSubstitution([FindExecutable(name="xacro")]),
             " ",
-            PathJoinSubstitution([FindPackageShare(support_package), "urdf", robot_xacro_file]),
+            PathJoinSubstitution(
+                [FindPackageShare(support_package), "urdf", robot_xacro_file]
+            ),
         ]
     )
     robot_description = {"robot_description": robot_description_content}
@@ -106,7 +114,9 @@ def launch_setup(context, *args, **kwargs):
     )
 
     # RViz
-    rviz_base = os.path.join(get_package_share_directory("abb_irb1200_5_90_moveit_config"), "rviz")
+    rviz_base = os.path.join(
+        get_package_share_directory("abb_irb1200_5_90_moveit_config"), "rviz"
+    )
     rviz_config = os.path.join(rviz_base, "moveit.rviz")
     rviz_node = Node(
         package="rviz2",
@@ -178,4 +188,6 @@ def generate_launch_description():
         )
     )
 
-    return LaunchDescription(declared_arguments + [OpaqueFunction(function=launch_setup)])
+    return LaunchDescription(
+        declared_arguments + [OpaqueFunction(function=launch_setup)]
+    )
