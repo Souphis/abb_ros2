@@ -54,7 +54,7 @@ def launch_setup(context, *args, **kwargs):
         ]
     )
     robot_description_semantic = {
-        "robot_description_semantic": robot_description_semantic_content
+        "robot_description_semantic": robot_description_semantic_content.perform(context)
     }
 
     kinematics_yaml = load_yaml(
